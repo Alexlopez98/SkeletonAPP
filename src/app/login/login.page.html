@@ -1,28 +1,49 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Inicio de Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Bienvenido a SkeletonAPP</h2>
-  <p>Por favor, ingresa tus datos para continuar.</p>
+  <div class="titulo-centro">
+    <h2>SkeletonAPP</h2>
+    <p>Aquí comienza todo</p>
+  </div>
 
-  <form>
+  <form (ngSubmit)="login()" #loginForm="ngForm">
     <div style="margin-top: 20px;">
       <label>Usuario</label><br>
-      <input type="text" placeholder="Ingresa tu usuario" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+      <input
+        type="text"
+        name="usuario"
+        [(ngModel)]="usuario"
+        required
+        minlength="3"
+        maxlength="8"
+        pattern="[a-zA-Z0-9]+"
+        placeholder="Ingresa tu usuario"
+        style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"
+      >
     </div>
 
     <div style="margin-top: 15px;">
       <label>Contraseña</label><br>
-      <input type="password" placeholder="Ingresa tu contraseña" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="4"
+        maxlength="4"
+        pattern="[0-9]+"
+        placeholder="4 dígitos numéricos"
+        style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"
+      >
     </div>
 
     <div style="text-align:center; margin-top: 25px;">
-      <button type="button" style="background-color:#3880ff; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer;">
+      <button type="submit" style="background-color:#3880ff; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer;">
         Iniciar Sesión
       </button>
     </div>
   </form>
+
+  <p *ngIf="error" style="color:red; text-align:center; margin-top:15px;">
+    {{ error }}
+  </p>
 </ion-content>
