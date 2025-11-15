@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Certificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="floating">Título</ion-label>
+    <ion-input [(ngModel)]="cert.titulo" type="text"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Detalle (Opcional)</ion-label>
+    <ion-input [(ngModel)]="cert.detalle" type="text"></ion-input>
+  </ion-item>
+  
+  <ion-button (click)="agregar()" expand="block" class="ion-margin-top">
+    Agregar Certificación
+  </ion-button>
+
+  <ion-list class="ion-margin-top">
+    <ion-item-sliding *ngFor="let item of lista; let i = index">
+      <ion-item>
+        <ion-label>
+          <h2>{{ item.titulo }}</h2>
+          <p>{{ item.detalle }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminar(i)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

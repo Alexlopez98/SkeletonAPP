@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Datos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="datos.nombre" required></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Apellido</ion-label>
+    <ion-input [(ngModel)]="datos.apellido" required></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">RUT</ion-label>
+    <ion-input [(ngModel)]="datos.rut" placeholder="11.111.111-1"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Correo</ion-label>
+    <ion-input [(ngModel)]="datos.correo"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Teléfono</ion-label>
+    <ion-input [(ngModel)]="datos.telefono"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="success" (click)="guardar()">
+    Guardar Cambios
+  </ion-button>
+
+</ion-content>

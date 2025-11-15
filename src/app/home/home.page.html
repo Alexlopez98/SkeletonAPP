@@ -1,65 +1,29 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>SkeletonAPP</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-segment value="mis-datos" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="mis-datos">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Mis Datos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="experiencia-laboral">
+        <ion-icon name="briefcase-outline"></ion-icon>
+        <ion-label>Experiencia</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="certificaciones">
+        <ion-icon name="school-outline"></ion-icon>
+        <ion-label>Certificados</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h2>Bienvenido!</h2>
-  <p class="descripcion">
-    Usuario: {{ usuario }}
-  </p>
-  <h3>Informacion adicional</h3>
-
-  <form>
-    <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input [(ngModel)]="nombre" name="nombre" id="nombreInput"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input [(ngModel)]="apellido" name="apellido" id="apellidoInput"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Nivel de educación</ion-label>
-      <ion-select [(ngModel)]="nivel" name="nivel">
-        <ion-select-option value="Basica">Básica</ion-select-option>
-        <ion-select-option value="Media">Media</ion-select-option>
-        <ion-select-option value="Superior">Superior</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Fecha de nacimiento</ion-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        [(ngModel)]="fecha"
-        name="fecha"
-        placeholder="Selecciona una fecha"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </ion-item>
-
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" color="medium" (click)="limpiar()">Limpiar</ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button expand="block" color="primary" (click)="mostrar()">Mostrar</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+<ion-content>
+  <ion-router-outlet></ion-router-outlet>
 </ion-content>
-<ion-footer>
-  <ion-toolbar color="light">
-    <ion-title class="footer-text">
-      Desarrollado por Alexander López 
-    </ion-title>
-  </ion-toolbar>
-</ion-footer>
