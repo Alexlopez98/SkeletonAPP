@@ -16,7 +16,8 @@ import {
   IonIcon,
   IonItemSliding,
   IonItemOptions,
-  IonItemOption
+  IonItemOption,
+  IonCheckbox
 } from '@ionic/angular/standalone';
 import { DbtaskService } from '../services/dbtask';
 import { addIcons } from 'ionicons';
@@ -40,7 +41,8 @@ import { trash } from 'ionicons/icons';
     IonIcon,
     IonItemSliding,
     IonItemOptions,
-    IonItemOption
+    IonItemOption,
+    IonCheckbox
   ],
   templateUrl: './experiencia-laboral.page.html',
   styleUrls: ['./experiencia-laboral.page.scss']
@@ -49,9 +51,12 @@ export class ExperienciaLaboralPage {
 
   nueva = {
     empresa: '',
-    cargo: '',
-    anios: ''
+    anioInicio: null,
+    trabajaActualmente: false,
+    anioTermino: null,
+    cargo: ''
   };
+
   lista: any[] = [];
   private usuarioActivo: string | null = ''; 
 
@@ -61,9 +66,7 @@ export class ExperienciaLaboralPage {
     private dbtaskService: DbtaskService
   ) {
     this.initStorage();
-    addIcons({
-      trash
-    });
+    addIcons({ trash });
   }
 
   async initStorage() {
@@ -80,22 +83,39 @@ export class ExperienciaLaboralPage {
   }
 
   async agregar() {
-    if (!this.nueva.empresa || !this.nueva.cargo) {
-      const alert = await this.alertCtrl.create({
-        header: 'Error',
-        message: 'Empresa y Cargo son obligatorios',
-        buttons: ['OK']
-      });
-      await alert.present();
+    if (!this.nueva.empresa || !this.nueva.cargo || !this.nueva.anioInicio) {
+      this.mostrarAlerta('Faltan datos', 'Empresa, Cargo y Año de Inicio son obligatorios.');
       return;
     }
+
+    if (!this.nueva.trabajaActualmente && !this.nueva.anioTermino) {
+      this.mostrarAlerta('Faltan datos', 'Si no trabaja ahí actualmente, debe indicar el año de término.');
+      return;
+    }
+
     this.lista.push({ ...this.nueva });
     await this.storage.set(`experiencias_${this.usuarioActivo}`, this.lista);
-    this.nueva = { empresa: '', cargo: '', anios: '' };
+    
+    this.nueva = {
+      empresa: '',
+      anioInicio: null,
+      trabajaActualmente: false,
+      anioTermino: null,
+      cargo: ''
+    };
   }
 
   async eliminar(i: number) {
     this.lista.splice(i, 1);
     await this.storage.set(`experiencias_${this.usuarioActivo}`, this.lista);
+  }
+
+  async mostrarAlerta(header: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }

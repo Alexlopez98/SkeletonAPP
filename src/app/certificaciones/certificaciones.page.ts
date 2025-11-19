@@ -16,7 +16,8 @@ import {
   IonIcon,
   IonItemSliding,
   IonItemOptions,
-  IonItemOption
+  IonItemOption,
+  IonCheckbox
 } from '@ionic/angular/standalone';
 import { DbtaskService } from '../services/dbtask';
 import { addIcons } from 'ionicons';
@@ -40,7 +41,8 @@ import { trash } from 'ionicons/icons';
     IonIcon,
     IonItemSliding,
     IonItemOptions,
-    IonItemOption
+    IonItemOption,
+    IonCheckbox
   ],
   templateUrl: './certificaciones.page.html',
   styleUrls: ['./certificaciones.page.scss']
@@ -48,9 +50,12 @@ import { trash } from 'ionicons/icons';
 export class CertificacionesPage {
 
   cert = {
-    titulo: '',
-    detalle: ''
+    nombre: '',
+    fechaObtencion: '',
+    tieneVencimiento: false,
+    fechaVencimiento: ''
   };
+
   lista: any[] = [];
   private usuarioActivo: string | null = ''; 
 
@@ -60,9 +65,7 @@ export class CertificacionesPage {
     private dbtaskService: DbtaskService
   ) {
     this.initStorage();
-    addIcons({
-      trash
-    });
+    addIcons({ trash });
   }
 
   async initStorage() {
@@ -79,22 +82,33 @@ export class CertificacionesPage {
   }
 
   async agregar() {
-    if (!this.cert.titulo) {
-      const alert = await this.alertCtrl.create({
-        header: 'Error',
-        message: 'El título es obligatorio',
-        buttons: ['OK']
-      });
-      await alert.present();
+    if (!this.cert.nombre || !this.cert.fechaObtencion) {
+      this.mostrarAlerta('Error', 'Nombre y Fecha de Obtención son obligatorios');
       return;
     }
+
+    if (this.cert.tieneVencimiento && !this.cert.fechaVencimiento) {
+      this.mostrarAlerta('Error', 'Debe indicar la fecha de vencimiento');
+      return;
+    }
+
     this.lista.push({ ...this.cert });
     await this.storage.set(`certificaciones_${this.usuarioActivo}`, this.lista);
-    this.cert = { titulo: '', detalle: '' };
+    
+    this.cert = { nombre: '', fechaObtencion: '', tieneVencimiento: false, fechaVencimiento: '' };
   }
 
   async eliminar(i: number) {
     this.lista.splice(i, 1);
     await this.storage.set(`certificaciones_${this.usuarioActivo}`, this.lista);
+  }
+
+  async mostrarAlerta(header: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }

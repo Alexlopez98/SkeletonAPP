@@ -1,23 +1,39 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Experiencia Laboral</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  
   <ion-item>
-    <ion-label position="floating">Empresa</ion-label>
-    <ion-input [(ngModel)]="nueva.empresa" type="text"></ion-input>
+    <ion-label position="stacked">Empresa</ion-label>
+    <ion-input [(ngModel)]="nueva.empresa" type="text" placeholder="Nombre de la empresa"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="floating">Cargo</ion-label>
-    <ion-input [(ngModel)]="nueva.cargo" type="text"></ion-input>
+    <ion-label position="stacked">Cargo</ion-label>
+    <ion-input [(ngModel)]="nueva.cargo" type="text" placeholder="Tu cargo"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="floating">Años</ion-label>
-    <ion-input [(ngModel)]="nueva.anios" type="number"></ion-input>
+    <ion-label position="stacked">Año Inicio</ion-label>
+    <ion-input [(ngModel)]="nueva.anioInicio" type="number" placeholder="Ej: 2020"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-checkbox [(ngModel)]="nueva.trabajaActualmente" slot="start"></ion-checkbox>
+    <ion-label>Trabajo aquí actualmente</ion-label>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Año Término</ion-label>
+    <ion-input 
+      [(ngModel)]="nueva.anioTermino" 
+      type="number" 
+      placeholder="Ej: 2023"
+      [disabled]="nueva.trabajaActualmente">
+    </ion-input>
   </ion-item>
   
   <ion-button (click)="agregar()" expand="block" class="ion-margin-top">
@@ -29,7 +45,12 @@
       <ion-item>
         <ion-label>
           <h2>{{ item.empresa }}</h2>
-          <p>{{ item.cargo }} - {{ item.anios }} años</p>
+          <p><strong>{{ item.cargo }}</strong></p>
+          <p>
+            {{ item.anioInicio }} - 
+            <span *ngIf="item.trabajaActualmente" style="color: var(--ion-color-success);">Presente</span>
+            <span *ngIf="!item.trabajaActualmente">{{ item.anioTermino }}</span>
+          </p>
         </ion-label>
       </ion-item>
       
@@ -40,4 +61,5 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
 </ion-content>
